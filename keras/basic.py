@@ -16,7 +16,6 @@ X = features
 y = labels
 
 #! split the train and test dataset and labels
-
 # * X = the dataset
 # * y = the label
 
@@ -28,14 +27,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.33, random_state=42)
 
 #! to normalize the data into 0 - 1
-
 scaler_object = MinMaxScaler()
 scaler_object.fit(X_train)
 scaled_X_train = scaler_object.transform(X_train)
 scaled_X_test = scaler_object.transform(X_test)
 
 #! configure the neural network layers
-
 model = Sequential()
 
 # * first hidden layer, 4 neurons, input dimension (bcs we have 4 columns in the dataset)
@@ -50,7 +47,6 @@ model.fit(scaled_X_train, y_train, epochs=10, verbose=2)
 print(model.metrics_names)  # * to see the metrics being configured
 
 #! evaluate the trained model
-
 prediction = (model.predict(scaled_X_test) > 0.5).astype("int32")
 
 print(confusion_matrix(y_test, prediction))  # to print the confusion matrix
