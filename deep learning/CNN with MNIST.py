@@ -1,10 +1,12 @@
 from keras.layers import Conv2D, MaxPool2D, Dense, Flatten
 from keras.models import Sequential
-from keras.utils import to_categorical
 import matplotlib.pyplot as plt
 from keras.datasets import mnist
 from sklearn.metrics import classification_report
 import numpy as np
+from keras.utils import to_categorical
+from keras.models import load_model
+
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -38,7 +40,7 @@ x_test = x_test.reshape(10000, 28, 28, 1)
 
 model = Sequential()
 
-model.add(Conv2D(filters=32, kernel_size=(4, 4),
+model.add(Conv2D(filters=32, kernel_size=(3, 3),
           input_shape=(28, 28, 1), activation="relu"))
 model.add(MaxPool2D(pool_size=(2, 2)))
 
@@ -51,7 +53,7 @@ model.add(Dense(128, activation="relu"))  # * neuron number
 model.add(Dense(10, activation="softmax"))  # * 10 output classes
 
 model.compile(loss="categorical_crossentropy",
-              optimizer="rmsprop", metrics="accuracy")
+              optimizer="rmsprop", metrics=["accuracy"])
 
 model.summary()
 
@@ -66,5 +68,14 @@ print(y_test)  # * here using original the labels instead of one-hot encoding
 print(predictions)  # * print the prediction label
 
 print(classification_report(y_test, predictions))
+
+#! save the trained model
+model.save("mnist.h5")
+
+#! load trained model
+new_model = load_model("mnist.h5")
+
+#! apply the trained model to new data
+np.argmax(model.predict(x_test), axis=1)
 
 plt.show()
