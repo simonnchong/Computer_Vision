@@ -61,7 +61,7 @@ model.fit(x_train, y_cate_train, epochs=2)
 
 model.evaluate(x_test, y_cate_test)
 
-# * let's the trained model predict the new test inpit
+# * let's the trained model predict the new test input
 predictions = np.argmax(model.predict(x_test), axis=1)
 
 print(y_test)  # * here using original the labels instead of one-hot encoding
